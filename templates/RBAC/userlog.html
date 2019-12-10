@@ -1,0 +1,103 @@
+{% extends "index.html" %}
+{% load staticfiles %}
+
+<meta charset="UTF-8">
+
+{% block index %}
+    {% csrf_token %}
+    <div class="x-nav">
+	<span class="layui-breadcrumb">
+        <a href="">用户操作日志</a>
+      </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+           href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+        </a>
+    </div>
+    <div class="x-body">
+        <div class="layui-row">
+            <div class='layui-col-md6'>
+                <form class="layui-form layui-col-md12 ">
+                    <div class="layui-input-inline" style="width: 33%"><input  class="layui-input" placeholder="用户名" name="name" id="id_name"></div>
+                    <div class="layui-input-inline" style="width: 33%"><input  class="layui-input" placeholder="ip地址" name="key" id="id_key"></div>
+                    <div class="layui-input-inline" style="width: 32%">
+                        <select name="contrller" id="id_origin">
+                            <option value="">登录方式</option>
+                            <option value="扫码登录">扫码登录</option>
+                            <option value="三方账号">三方账号</option>
+                            <option value="本地">本地</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class='UserTable'>
+                <button class="layui-btn" data-type="reload"><i class="layui-icon">&#xe615;</i></button>
+            </div>
+        </div>
+
+        <table class="layui-hide" id="asset_table" lay-filter="asset"></table>
+    </div>
+
+
+    <script>
+        var csrf = $('input[name="csrfmiddlewaretoken"]').val();
+
+        layui.use('table', function () {
+            var table = layui.table;
+            //方法级渲染
+            table.render({
+                elem: '#asset_table'
+                , url: "{% url 'userloglist' %}"
+                , method: 'post'
+                , where: {'csrfmiddlewaretoken': csrf}
+                , cols: [[
+                    {field: 'uesr_logid', title: '编号', sort: true, fixed: true}
+                    , {field: 'user_name', title: '用户名', sort: true}
+                    , {field: 'user_ip', title: '来源ip', sort: true}
+                    , {field: 'user_origin', title: '登录方式', sort: true}
+                    , {field: 'updatetime', title: '访问时间', sort: true}
+                    , {field: 'user_action', title: '操作内容', sort: true}
+                    , {field: 'action_description', title: '操作描述', sort: true, width: 400}
+                ]]
+                , id: 'testReload'
+                , page: true
+                , limit: 15
+                , text: {
+                    none: '暂无相关数据'
+                }
+            });
+            table.on('tool(asset)', function (obj) {
+                var data = obj.data.log_id;
+                if (obj.event === 'detail') {
+                //    url = "{ url 'logsdetail' '0' %}";
+                    url = url.replace(/0/, data);
+                    x_admin_show('日志详情', url, 800);
+                }
+            });
+
+
+            var $ = layui.$, active = {
+                reload: function () {
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            name: $('#id_name').val()
+                            , key: $("#id_key").val()
+                            , origin: $("#id_origin option:selected").val()
+                        }
+                    });
+                }
+            };
+
+
+            $('.UserTable .layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+    </script>
+
+{% endblock %}

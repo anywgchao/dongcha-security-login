@@ -1,0 +1,76 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人资料</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="{% static 'lib/layui/css/layui.css' %}" rel="stylesheet">
+    <script src="{% static 'jquery/jquery-3.3.1.min.js' %}"></script> <!-- jQuery Library -->
+    <script src="{% static 'lib/layui/layui.js' %}" charset="utf-8"></script>
+    <script src="{% static 'js/xadmin.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<style>
+    .layui-table td, .layui-table th{
+        padding: 5px 0;
+    }
+
+</style>
+
+</head>
+<body>
+
+  <!--  <div class="x-nav" style="margin-bottom: 10px">
+	<span class="layui-breadcrumb">
+        <a href="">个人资料</a>
+      </span>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;margin-left: 40%"
+           href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+        </a>
+    </div>-->
+<div class="x-body layui-anim layui-anim-up layui-col-md6" style="width: 50%;border-style: solid;border-width:.5px;border-color:#e5e5e5;border-radius:20px;margin: 20px 10px">
+	<table class="layui-table" lay-skin="nob" style="width: 90%;margin-left: 15px" >
+		<tr><td style="width: 100px"><h5>用户姓名: </h5></td><td>{{ user.first_name }}{{ user.last_name }}</td><td><button type="button" class="layui-btn"
+                onclick="x_admin_show('资料变更','{% url 'changeuserinfo' %}',600)">更新
+        </button></td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px;"><h5>用户ID: </h5></td><td>{{ user.username }}</td></tr>
+		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+		<tr><td style="width: 120px"><h5>邮箱地址： </h5></td><td>{{ user.email }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>员工编号： </h5></td><td>{{ user.profile.user_num }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>入驻日期 ：</h5></td><td>{{ user.date_joined }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>职位名称：</h5></td><td>{{ user.profile.title }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>直属领导：</h5></td><td>{{ user.profile.parent_email }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>系统角色：</h5></td><td>{{ user.profile.roles.title }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>座机号码： </h5></td><td>{{ user.profile.telephone }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>手机号码 </h5></td><td>{{ user.profile.mobilephone }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+		<tr><td style="width: 120px"><h5>个人简介 </h5></td><td>{{ user.profile.description }}</td></tr>
+        		<tr><td style="width: 120px"><hr></td><td><hr></td></tr>
+
+	</table>
+
+</div>
+
+
+</body>
+</html>

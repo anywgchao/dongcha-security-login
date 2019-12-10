@@ -274,7 +274,7 @@ def logout(request):
 
 
 @csrf_protect
-@ratelimit(key='ip', rate='7/h', block=True)
+@ratelimit(key='ip', rate='20/h', block=True)
 def login(request):
     if request.method == "POST":
         form = forms.SigninForm(request.POST)

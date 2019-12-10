@@ -89,6 +89,7 @@ class UserRequest(models.Model):
     password = models.CharField('密码', max_length=100)
     role = models.CharField('角色', max_length=100)
     is_use = models.CharField('状态', max_length=100)
+    error_count = models.IntegerField(u'错误登陆', default=0)
     fail_num = models.CharField(u'失败次数', max_length=50, null=True, blank=True)
     time_space = models.CharField(u'登录时间间隔', max_length=50, null=True, blank=True)
     forbid_time_space = models.CharField(u'禁止登录时间间隔', max_length=50, null=True, blank=True)

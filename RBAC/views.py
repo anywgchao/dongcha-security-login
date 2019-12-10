@@ -14,6 +14,7 @@ import datetime
 from . import forms, models
 import hashlib
 from django.contrib.auth.hashers import make_password
+from django.views.decorators.csrf import csrf_exempt
 from SeMFSetting.views import paging
 from .service.init_permission import init_permission
 from SeMFSetting.Functions.checkpsd import checkpsd
@@ -317,7 +318,7 @@ def login(request):
     return render(request, "RBAC/login.html", {"form": form})
 
 
-@csrf_protect
+@csrf_exempt
 @ratelimit(key='ip', rate='20/h', block=True)
 def ding_login(request):
     form = forms.SigninForm(request.POST)
@@ -511,7 +512,6 @@ def userregisttable(request):
 def user_add(request):
     user = request.user
     if user.is_superuser:
-        error = ""
         if request.method == "POST":
             name = request.POST.get('name')
             nickname = request.POST.get('nickname')
@@ -722,7 +722,7 @@ def logins(request):
                 resultdict['data'] = data_list
                 resultdict['userid'] = user_id
                 resultdict['token'] = token
-                operate_info(request, user_id, '登录', user_info.get('nick'), '扫码登录')
+                operate_info(request, user_info.get('nick'), '登录', user_info.get('nick'), '扫码登录')
                 return JsonResponse(resultdict)
             else:
                 resultdict['code'] = 407
@@ -738,8 +738,8 @@ def logins(request):
 
 def redis_connect(username, token):
     valid_time = VALID_TIME
-    # r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
-    r = redis.Redis(host='127.0.0.1', port=6379)
+    r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
+    # r = redis.Redis(host='127.0.0.1', port=6379)
 
     r.set(username, token, ex=valid_time * 60 * 60)
 

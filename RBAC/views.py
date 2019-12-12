@@ -276,6 +276,7 @@ def logout(request):
 
 @csrf_protect
 @ratelimit(key='ip', rate='20/h', block=True)
+@ratelimit(key='post:username', rate='10/30m', block=True)
 def login(request):
     if request.method == "POST":
         form = forms.SigninForm(request.POST)
@@ -298,11 +299,12 @@ def login(request):
                         return HttpResponseRedirect("/user/")
                     else:
                         user_get.profile.error_count += 1
-                        if user_get.profile.error_count >= 5:
+                        if user_get.profile.error_count >= 10:
                             user_get.profile.error_count = 0
                             user_get.profile.lock_time = timezone.now() + datetime.timedelta(minutes=1)
                         user_get.save()
-                        error = "登陆失败,已错误登录" + str(user_get.profile.error_count) + "次,5次后账号锁定",
+                        error = '登陆失败,已错误登录' + str(user_get.profile.error_count) + '次,10次后账号锁定'
+
             else:
                 error = "请检查用户信息"
 
@@ -320,6 +322,7 @@ def login(request):
 
 @csrf_exempt
 @ratelimit(key='ip', rate='20/h', block=True)
+@ratelimit(key='post:username', rate='10/30m', block=True)
 def ding_login(request):
     form = forms.SigninForm(request.POST)
     if request.method == "POST":
@@ -359,7 +362,7 @@ def ding_login(request):
                     return JsonResponse(resultdict)
                 else:
                     user_get.error_count += 1
-                    if user_get.error_count >= 5:
+                    if user_get.error_count >= 10:
                         user_get.error_count = 0
                         user_get.lock_time = timezone.now() + datetime.timedelta(minutes=1)
                         user_get.save()
@@ -624,7 +627,6 @@ def user_update(request, mail):
             rpwd = request.POST.get('rpwd')
             if checkpsd(password):
                 if password == rpwd:
-                    pass
                     models.UserRequest.objects.filter(email=mail).update(
                         name=str(name),
                         nickname=nickname,
@@ -738,8 +740,8 @@ def logins(request):
 
 def redis_connect(username, token):
     valid_time = VALID_TIME
-    r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
-    # r = redis.Redis(host='127.0.0.1', port=6379)
+    # r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
+    r = redis.Redis(host='127.0.0.1', port=6379)
 
     r.set(username, token, ex=valid_time * 60 * 60)
 

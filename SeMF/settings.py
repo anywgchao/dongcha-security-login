@@ -42,10 +42,10 @@ VALID_TIME = 8
 # 设置网站根地址
 WEB_URL = 'http://localhost:8000'
 
-INFO_LIST = [['运营系统', 'http://admin.ishansong.com/', WEB_URL + '/static/operation.png'],
-             ['wiki', 'http://wiki.bingex.com/', WEB_URL + '/static/wiki.png'],
-             ['客服系统', 'http://cs.ishansong.com/', WEB_URL + '/static/service.png'],
-             ['sso系统', 'http://sso.ishansong.com/', WEB_URL + '/static/account.png']]
+INFO_LIST = [['运营系统', 'http://admin.ishansong.com/', WEB_URL + '/static/images/operation.png'],
+             ['wiki', 'http://wiki.bingex.com/', WEB_URL + '/static/images/wiki.png'],
+             ['客服系统', 'http://cs.ishansong.com/', WEB_URL + '/static/images/service.png'],
+             ['sso系统', 'http://sso.ishansong.com/', WEB_URL + '/static/images/account.png']]
 # 设置登录初始路径
 LOGIN_URL = '/view/'
 

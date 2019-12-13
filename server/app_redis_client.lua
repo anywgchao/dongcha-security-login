@@ -3,8 +3,8 @@ local redis_client = {};
 local  url = "127.0.0.1";
 local  port = 6379;
 local  passwd = "4cWZPP3mPyxdZzHR";
-local pool_max_idle_time = 10000 --毫秒  
-local pool_size = 100 --连接池大小   
+local pool_max_idle_time = 10000 --毫秒
+local pool_size = 100 --连接池大小
 
 -- 回调函数执行 ，封装获取连接 与 放回连接池操作
 function redis_client.get_red(callback)
@@ -26,17 +26,17 @@ function redis_client.get_red(callback)
     end
 
     -- 回调函数
-    if callback then 
+    if callback then
         callback(success , red);
-    else 
+    else
         return false;
     end
 
-    --释放连接(连接池实现)  
-    local ok, err = red:set_keepalive(pool_max_idle_time, pool_size)  
-    if not ok then  
-        return false;   
-    end  
+    --释放连接(连接池实现)
+    local ok, err = red:set_keepalive(pool_max_idle_time, pool_size)
+    if not ok then
+        return false;
+    end
     return true;
 end
 

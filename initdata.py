@@ -1,8 +1,9 @@
 #! /usr/bin/python3
 # -*- coding:UTF-8 -*-
 
-import django
 import os
+
+import django
 
 
 def initmenu():
@@ -31,14 +32,19 @@ def initmenu():
         models.Menu.objects.get_or_create(
             title=item['title'],
             icon=item['icon'],
-            parent=models.Menu.objects.filter(title=item['parent_title']).first(),
+            parent=models.Menu.objects.filter(
+                title=item['parent_title']).first(),
         )
 
     permission_list = [
-        {'title': '新增用户', 'url': '/manage/users', 'is_menu': True, 'menu_title': '新增用户'},
-        {'title': '个人资料', 'url': '/manage/user_data', 'is_menu': True, 'menu_title': '个人资料'},
-        {'title': '用户列表', 'url': '/manage/user/', 'is_menu': True, 'menu_title': '用户列表'},
-        {'title': '系统日志', 'url': '/manage/userlog/', 'is_menu': True, 'menu_title': '系统日志'},
+        {'title': '新增用户', 'url': '/manage/users',
+            'is_menu': True, 'menu_title': '新增用户'},
+        {'title': '个人资料', 'url': '/manage/user_data',
+            'is_menu': True, 'menu_title': '个人资料'},
+        {'title': '用户列表', 'url': '/manage/user/',
+            'is_menu': True, 'menu_title': '用户列表'},
+        {'title': '系统日志', 'url': '/manage/userlog/',
+            'is_menu': True, 'menu_title': '系统日志'},
 
     ]
     for item in permission_list:
@@ -48,7 +54,8 @@ def initmenu():
         )
         permission = permission_tup[0]
         if item['is_menu']:
-            permission.menu = models.Menu.objects.filter(title=item['menu_title']).first()
+            permission.menu = models.Menu.objects.filter(
+                title=item['menu_title']).first()
             permission.save()
 
 
@@ -64,7 +71,8 @@ def initrole():
     ]
     for item in permissions_list:
         role_list = Role.objects.get_or_create(title=item['title'])
-        role_list[0].permissions.add(Permission.objects.filter(title=item['permissions']).first())
+        role_list[0].permissions.add(
+            Permission.objects.filter(title=item['permissions']).first())
         role_list[0].save()
 
     print('initrole ok')
@@ -81,7 +89,6 @@ def initsuperuser():
         user.profile.roles.add(role)
         user.save()
     print('initsuperuser ok')
-
 
 
 if __name__ == "__main__":

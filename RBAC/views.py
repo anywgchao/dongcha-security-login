@@ -333,7 +333,7 @@ def ding_login(request):
             Q(email=username) | Q(mobilephone=username)).exclude(is_use='不启用').first()
         if user_get:
             if user_get.lock_time > timezone.now():
-                resultdict['code'] = 407
+                resultdict['code'] = 409
                 resultdict['msg'] = "账号被锁定"
                 resultdict['data'] = "Account locked"
                 return JsonResponse(resultdict)
@@ -352,12 +352,13 @@ def ding_login(request):
                         data_list.append(data)
 
                     token = generate_token(3600)
-                    redis_connect(username, token)
+                    r = redis_connect()
                     resultdict['code'] = 200
                     resultdict['msg'] = "登录成功"
                     resultdict['data'] = data_list
-                    resultdict['userid'] = username
+                    resultdict['userId'] = username
                     resultdict['token'] = token
+                    r.set(username, token, ex=VALID_TIME * 60 * 60)
                     operate_info(request, username, '登录', username, '三方账号')
                     return JsonResponse(resultdict)
                 else:
@@ -366,7 +367,7 @@ def ding_login(request):
                         user_get.error_count = 0
                         user_get.lock_time = timezone.now() + datetime.timedelta(minutes=1)
                         user_get.save()
-                    resultdict['code'] = 407
+                    resultdict['code'] = 408
                     resultdict['msg'] = "密码错误"
                     resultdict['data'] = 'Password mistake'
                     return JsonResponse(resultdict)
@@ -660,9 +661,11 @@ def generate_token(expire=60):
 
 def logins(request):
     """登录验证"""
+    r = redis_connect()
     if request.method == "GET":
         resultdict = dict()
-        code = request.GET.get('code', )
+        code = request.GET.get('code')
+        uuid = request.GET.get('uuid')
         if code:
             appId = APP_ID
             appSecret = USER_APP_SECRET
@@ -707,6 +710,7 @@ def logins(request):
 
             user_id = user.json().get('userid')  # 根据unionid获取登录用户的userid
 
+            # user_id = 'manger112'
             if user_id:
                 token = generate_token(3600)
                 infolist = INFO_LIST
@@ -718,33 +722,99 @@ def logins(request):
                     data['icon'] = i[2]
                     data_list.append(data)
 
-                redis_connect(user_id, token)
                 resultdict['code'] = 200
                 resultdict['msg'] = "登录成功"
                 resultdict['data'] = data_list
-                resultdict['userid'] = user_id
+                resultdict['userId'] = user_id
                 resultdict['token'] = token
+                r.set(user_id, token, ex=VALID_TIME * 60 * 60)
+                r.set(uuid, resultdict, ex=20)
                 operate_info(request, user_info.get('nick'), '登录', user_info.get('nick'), '扫码登录')
                 return JsonResponse(resultdict)
             else:
                 resultdict['code'] = 407
                 resultdict['msg'] = "非合法用户"
                 resultdict['data'] = "Unauthorized user"
+                r.set(uuid, resultdict, ex=20)
                 return JsonResponse(resultdict)
         else:
             resultdict['code'] = 500
             resultdict['msg'] = "登陆失败，请重新登陆认证"
             resultdict['data'] = "Login failed"
+            r.set(uuid, resultdict, ex=20)
             return JsonResponse(resultdict)
 
 
-def redis_connect(username, token):
-    valid_time = VALID_TIME
-    # r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
-    r = redis.Redis(host='127.0.0.1', port=6379)
+def redis_connect():
+    r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
+    # r = redis.Redis(host='127.0.0.1', port=6379)
+    return r
 
-    r.set(username, token, ex=valid_time * 60 * 60)
 
 
 def login_in(request):
     return render(request, "login.html")
+
+
+def data_transfer(request):
+    if request.method == "GET":
+        if request.GET.get('uuid'):
+            r = redis_connect()
+            data = r.get(request.GET.get('uuid')).decode("utf-8")
+            if data:
+                data = json.loads(json.dumps(eval(data)))
+                return JsonResponse(data, safe=False)
+            else:
+                resultdict = dict()
+                resultdict['code'] = 500
+                resultdict['msg'] = "登陆失败，请重新登陆认证"
+                resultdict['data'] = "Login failed"
+                return JsonResponse(resultdict, safe=False)
+        else:
+            resultdict = dict()
+            resultdict['code'] = 500
+            resultdict['msg'] = "登陆失败，请重新登陆认证"
+            resultdict['data'] = "Login failed"
+            return JsonResponse(resultdict, safe=False)
+    else:
+        resultdict = dict()
+        resultdict['code'] = 500
+        resultdict['msg'] = "登陆失败，请重新登陆认证"
+        resultdict['data'] = "Login failed"
+        return JsonResponse(resultdict, safe=False)
+
+
+def check_status(request):
+    resultdict = dict()
+
+    if request.method == "GET":
+        if request.GET.get('userId'):
+            r = redis_connect()
+            data = r.get(request.GET.get('userId')).decode("utf-8")
+            if data:
+                resultdict['code'] = 200
+                resultdict['msg'] = "登陆成功"
+                resultdict['is_login'] = True
+                resultdict['data'] = "Login successful"
+                return JsonResponse(resultdict, safe=False)
+            else:
+                resultdict['code'] = 500
+                resultdict['msg'] = "登陆失败，请重新登陆认证"
+                resultdict['data'] = "Login failed"
+                return JsonResponse(resultdict, safe=False)
+        else:
+            resultdict['code'] = 500
+            resultdict['msg'] = "登陆失败，请重新登陆认证"
+            resultdict['data'] = "Login failed"
+            return JsonResponse(resultdict, safe=False)
+    else:
+        resultdict['code'] = 500
+        resultdict['msg'] = "登陆失败，请重新登陆认证"
+        resultdict['data'] = "Login failed"
+        return JsonResponse(resultdict, safe=False)
+
+
+
+
+
+

@@ -24,8 +24,9 @@ SAFE_URL = [
     '/login/',
     '/verification_code_login/',
     '/account_login/',
+    '/data_transfer/',
+    '/check_status/',
 ]
-
 
 EMAIL_HOST = 'smtp.exmail.qq.com'  # SMTP地址
 EMAIL_PORT = 465  # SMTP端口
@@ -40,7 +41,7 @@ DEFAULT_FROM_EMAIL = '安全管控平台<security@ishansong.com>'
 VALID_TIME = 8
 
 # 设置网站根地址
-WEB_URL = 'http://localhost:8000'
+WEB_URL = 'http://172.23.0.242:8000'
 
 INFO_LIST = [['运营系统', 'http://admin.ishansong.com/', WEB_URL + '/static/images/operation.png'],
              ['wiki', 'http://wiki.bingex.com/', WEB_URL + '/static/images/wiki.png'],
@@ -69,12 +70,14 @@ SESSION_MENU_KEY = 'smk'
 ALL_MENU_KEY = 'amk'
 PERMISSION_MENU_KEY = 'pmk'
 
-
 APP_ID = 'dingoaqsukcpmmvsaarq8o'
 USER_APP_SECRET = 'f2oGACNfw3zFCLhi40UCplJv-dAmMV4ujCGS1AZbfsT90Jpg4BF5kPDkbx2z3W4J'
 
 APP_KEY = 'dingc19i7nhs75vwtiel'
 APP_SECRET = '78VVKXBdPb5J-BPK5I5hB83bLdFqGkwB2hYlBYGzijaO7JzjYHFjnNHvuOxgCJKc'
+
+# APP_KEY = 'dingh3dxlg3xqe4pmqp6'
+# APP_SECRET = 'buzJSrSCgQFZXCw9HsCcCRF2fcqiDVFBAoZ6l0syqgVRHH5Dy3rIM1IxC0Ufj8hk'
 
 # Application definition
 INSTALLED_APPS = [
@@ -86,12 +89,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'RBAC',
     'SeMFSetting',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -168,6 +173,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ()
+
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+    'VIEW',
+)
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 LANGUAGE_CODE = 'zh-Hans'
@@ -179,6 +210,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
+
+APPEND_SLASH = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

@@ -12,3 +12,4 @@ pytz==2018.4
 django-redis==4.10.0
 redis
 django-ratelimit==2.0.0
+django-cors-headers

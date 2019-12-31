@@ -13,6 +13,8 @@ urlpatterns = [
     # path('view/', views.login_in, name='login'),
     path('verification_code_login/', views.logins, name='logins'),
     path('account_login/', views.ding_login, name='ding_login'),
+    path('data_transfer/', views.data_transfer, name='data_transfer'),
+    path('check_status/', views.check_status, name='check_status'),
     # re_path(r'^login', views.login_in, name='login'),
     # re_path(r'^logins', views.log_in, name='logins'),
 

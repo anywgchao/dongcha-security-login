@@ -41,7 +41,7 @@ DEFAULT_FROM_EMAIL = '安全管控平台<security@ishansong.com>'
 VALID_TIME = 8
 
 # 设置网站根地址
-WEB_URL = 'http://172.23.0.242:8000'
+WEB_URL = 'https://local-test-vpn.bingex.com'
 
 INFO_LIST = [['运营系统', 'http://admin.ishansong.com/', WEB_URL + '/static/images/operation.png'],
              ['wiki', 'http://wiki.bingex.com/', WEB_URL + '/static/images/wiki.png'],

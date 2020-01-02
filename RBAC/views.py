@@ -699,6 +699,8 @@ def logins(request):
             user_info = user_info_request.json()['user_info']  # 获取扫码用户信息
             unionid = user_info.get('unionid')
 
+            '''
+
             access_token = requests.get(
                 'https://oapi.dingtalk.com/gettoken?appkey={appId}&appsecret={appSecret}'.format(appId=APP_KEY,
                                                                                                  appSecret=APP_SECRET))
@@ -709,8 +711,9 @@ def logins(request):
                     format(access_token=access_token, unionid=unionid))
 
             user_id = user.json().get('userid')  # 根据unionid获取登录用户的userid
+            '''
 
-            # user_id = 'manger112'
+            user_id = 'manger112'
             if user_id:
                 token = generate_token(3600)
                 infolist = INFO_LIST

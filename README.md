@@ -1,7 +1,7 @@
 <!--
  * @Author: Daboluo
  * @Date: 2019-12-12 20:20:44
- * @LastEditTime : 2020-01-03 16:44:36
+ * @LastEditTime : 2020-01-06 17:51:45
  * @LastEditors  : Do not edit
  -->
 
@@ -144,15 +144,16 @@ data  =  {
 
 ### 其它配置
 
-回调域名： <https://dongcha-dinglogin.bingex.com/ding_login>
-LOGO地址： <https://apkhouse.oss-cn-beijing.aliyuncs.com/vpn/icon-256x256.png>
 项目名：【内网SSO】
 描述：内网SSO扫码登陆
+回调域名： <https://dongcha-dinglogin.bingex.com/ding_login>
 
-回调接口<https://dongcha-dinglogin-vpn.bingex.com/verification_code_login>
-LOGO地址： <https://apkhouse.oss-cn-beijing.aliyuncs.com/vpn/icon-256x256.png>
 项目名：【业务网SSO】
 描述：业务网SSO扫码登陆
+回调接口<https://dongcha-dinglogin-vpn.bingex.com/verification_code_login>
+
+LOGO地址：
+ <https://apkhouse.oss-cn-beijing.aliyuncs.com/vpn/icon-256x256.png>
 
 DNS解析
 dongcha-dinglogin.bingex.com     39.107.218.219

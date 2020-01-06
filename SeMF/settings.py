@@ -11,8 +11,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '5o@#+%b-%j_-47tzgdy6-e#hz+cu%*^#0$^%(2*ie!7++=&a)%'
 
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 
 ALLOWED_HOSTS = ['*']
@@ -41,7 +41,7 @@ DEFAULT_FROM_EMAIL = '安全管控平台<security@ishansong.com>'
 VALID_TIME = 8
 
 # 设置网站根地址
-WEB_URL = 'https://local-test-vpn.bingex.com'
+WEB_URL = 'https://dongcha-dinglogin-vpn.bingex.com'
 
 INFO_LIST = [['运营系统', 'http://admin.ishansong.com/', WEB_URL + '/static/images/operation.png'],
              ['wiki', 'http://wiki.bingex.com/', WEB_URL + '/static/images/wiki.png'],
@@ -70,14 +70,15 @@ SESSION_MENU_KEY = 'smk'
 ALL_MENU_KEY = 'amk'
 PERMISSION_MENU_KEY = 'pmk'
 
-APP_ID = 'dingoaqsukcpmmvsaarq8o'
-USER_APP_SECRET = 'f2oGACNfw3zFCLhi40UCplJv-dAmMV4ujCGS1AZbfsT90Jpg4BF5kPDkbx2z3W4J'
+APP_ID = 'dingoalsv4lgdgoyxsmjyn'
+USER_APP_SECRET = 's3w245uezSOF6KbPuJfdZuTjZwHwFuDp35-WjqdEXNQLoqBh9Abv3LKMyqZWlZcj'
 
-APP_KEY = 'dingc19i7nhs75vwtiel'
-APP_SECRET = '78VVKXBdPb5J-BPK5I5hB83bLdFqGkwB2hYlBYGzijaO7JzjYHFjnNHvuOxgCJKc'
+# APP_KEY = 'dingc19i7nhs75vwtiel'
+# APP_SECRET = '78VVKXBdPb5J-BPK5I5hB83bLdFqGkwB2hYlBYGzijaO7JzjYHFjnNHvuOxgCJKc'
 
-# APP_KEY = 'dingh3dxlg3xqe4pmqp6'
-# APP_SECRET = 'buzJSrSCgQFZXCw9HsCcCRF2fcqiDVFBAoZ6l0syqgVRHH5Dy3rIM1IxC0Ufj8hk'
+ACCESS_TOKEN = ''
+APP_KEY = 'dingh3dxlg3xqe4pmqp6'
+APP_SECRET = 'buzJSrSCgQFZXCw9HsCcCRF2fcqiDVFBAoZ6l0syqgVRHH5Dy3rIM1IxC0Ufj8hk'
 
 # Application definition
 INSTALLED_APPS = [

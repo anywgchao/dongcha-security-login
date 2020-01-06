@@ -1,6 +1,6 @@
 # coding:utf-8
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
-from SeMF.settings import APP_ID, USER_APP_SECRET, APP_KEY, APP_SECRET, INFO_LIST, VALID_TIME
+from SeMF.settings import APP_ID, USER_APP_SECRET, ACCESS_TOKEN, INFO_LIST, VALID_TIME
 
 # Create your views here.
 from django.http import JsonResponse
@@ -667,51 +667,25 @@ def logins(request):
         code = request.GET.get('code')
         uuid = request.GET.get('uuid')
         if code:
-            appId = APP_ID
-            appSecret = USER_APP_SECRET
-
             token = requests.get(
-                'https://oapi.dingtalk.com/sns/gettoken?appid={appId}&appsecret={appSecret}'.format(appId=appId,
-                                                                                                    appSecret=appSecret))
+                'https://oapi.dingtalk.com/sns/gettoken?appid={appId}&appsecret={appSecret}'.format(appId=APP_ID,
+                                                                                                    appSecret=USER_APP_SECRET))
             access_token = token.json()["access_token"]  # 获取扫码登录临时token
 
             tmp_auth_code = requests.post(
-                "https://oapi.dingtalk.com/sns/get_persistent_code?access_token={access_token}".format(
+                "https://oapi.dingtalk.com/sns/getuserinfo_bycode?access_token={access_token}".format(
                     access_token=access_token),
                 json={
                     "tmp_auth_code": code
                 })
-            tmp_code = tmp_auth_code.json()
-            openid = tmp_code['openid']
-            persistent_code = tmp_code['persistent_code']
 
-            sns_token_request = requests.post(
-                "https://oapi.dingtalk.com/sns/get_sns_token?access_token={access_token}".format(
-                    access_token=access_token),
-                json={
-                    "openid": openid,
-                    "persistent_code": persistent_code
-                })
-            sns_token = sns_token_request.json()['sns_token']
+            unionid = tmp_auth_code.json().get('unionid')
 
-            user_info_request = requests.get(
-                'https://oapi.dingtalk.com/sns/getuserinfo?sns_token={sns_token}'.format(sns_token=sns_token))
-            user_info = user_info_request.json()['user_info']  # 获取扫码用户信息
-            unionid = user_info.get('unionid')
-
-            '''
-
-            access_token = requests.get(
-                'https://oapi.dingtalk.com/gettoken?appkey={appId}&appsecret={appSecret}'.format(appId=APP_KEY,
-                                                                                                 appSecret=APP_SECRET))
-            access_token = access_token.json()["access_token"]  # 获取访问通讯录权限token
-
+            access_token = ACCESS_TOKEN
             user = requests.get(
                 'https://oapi.dingtalk.com/user/getUseridByUnionid?access_token={access_token}&unionid={unionid}'.
                     format(access_token=access_token, unionid=unionid))
-
-            user_id = user.json().get('userid')  # 根据unionid获取登录用户的userid
-            '''
+            user_id = user.json().get('user_info')['unionid']  # 根据unionid获取登录用户的userid
 
             user_id = 'manger112'
             if user_id:
@@ -732,7 +706,8 @@ def logins(request):
                 resultdict['token'] = token
                 r.set(user_id, token, ex=VALID_TIME * 60 * 60)
                 r.set(uuid, resultdict, ex=20)
-                operate_info(request, user_info.get('nick'), '登录', user_info.get('nick'), '扫码登录')
+                operate_info(request, tmp_auth_code.json().get('user_info').get('nick'),
+                             '登录', tmp_auth_code.json().get('user_info').get('nick'), '扫码登录')
                 return JsonResponse(resultdict)
             else:
                 resultdict['code'] = 407
@@ -752,7 +727,6 @@ def redis_connect():
     r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
     # r = redis.Redis(host='127.0.0.1', port=6379)
     return r
-
 
 
 def login_in(request):

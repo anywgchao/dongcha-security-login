@@ -30,8 +30,8 @@ end
 redis_module.get_red(
     -- 回调函数 将获取连接池连接，放回连接池操作封装起来
     function (success , red)
-		local issbrowsertoken = ngx.var.http_issbrowsertoken
-		local issbrowserid = ngx.var.http_issbrowserid
+		local issbrowsertoken = ngx.var.http_issBrowserToken
+		local issbrowserid = ngx.var.http_issBrowserId
 		-- 未安装客户端/非合法用户
 		if isempty(issbrowserid) then
 			--ngx.say(cjson.encode(ret_client_err))

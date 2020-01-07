@@ -1,7 +1,7 @@
 <!--
  * @Author: Daboluo
  * @Date: 2019-12-12 20:20:44
- * @LastEditTime : 2020-01-03 16:44:36
+ * @LastEditTime : 2020-01-06 17:55:09
  * @LastEditors  : Do not edit
  -->
 
@@ -144,26 +144,36 @@ data  =  {
 
 ### 其它配置
 
-回调域名： <https://dongcha-dinglogin.bingex.com/ding_login>
-LOGO地址： <https://apkhouse.oss-cn-beijing.aliyuncs.com/vpn/icon-256x256.png>
 项目名：【内网SSO】
+
 描述：内网SSO扫码登陆
 
-回调接口<https://dongcha-dinglogin-vpn.bingex.com/verification_code_login>
-LOGO地址： <https://apkhouse.oss-cn-beijing.aliyuncs.com/vpn/icon-256x256.png>
+回调接口： <https://dongcha-dinglogin.bingex.com/ding_login>
+
+---
 项目名：【业务网SSO】
+
 描述：业务网SSO扫码登陆
 
-DNS解析
-dongcha-dinglogin.bingex.com     39.107.218.219
-dongcha-dinglogin-vpn.bingex.com 39.107.218.219
+回调接口：<https://dongcha-dinglogin-vpn.bingex.com/verification_code_login>
 
+LOGO地址：
+ <https://apkhouse.oss-cn-beijing.aliyuncs.com/vpn/icon-256x256.png>
+
+---
+DNS解析
+
+* dongcha-dinglogin.bingex.com     39.107.218.219
+* dongcha-dinglogin-vpn.bingex.com 39.107.218.219
+
+---
 钉钉IP白名单-获取内部通讯录-小程序
-106.39.46.254
-219.143.154.194
-123.56.20.195
-124.127.252.242
-39.105.135.137
-39.105.133.23
-39.105.131.102
-39.105.91.107
+
+* 106.39.46.254
+* 219.143.154.194
+* 123.56.20.195
+* 124.127.252.242
+* 39.105.135.137
+* 39.105.133.23
+* 39.105.131.102
+* 39.105.91.107

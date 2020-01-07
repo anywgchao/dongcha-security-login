@@ -17,6 +17,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 REGEX_URL = '{url}'  # url作严格匹配
+
 # 设置不需要权限的页面
 SAFE_URL = [
     '/view/',
@@ -40,9 +41,11 @@ DEFAULT_FROM_EMAIL = '安全管控平台<security@ishansong.com>'
 
 VALID_TIME = 8
 
+REDIS_PASSWORD = '4cWZPP3mPyxdZzHR'
+REDIS_HOST = '127.0.0.1'
+
 # 设置网站根地址
 WEB_URL = 'https://dongcha-dinglogin-vpn.bingex.com'
-# WEB_URL = 'http://172.23.0.242:8000'
 
 INFO_LIST = [['运营系统', 'http://admin.ishansong.com/', WEB_URL + '/static/images/operation.png'],
              ['wiki', 'http://wiki.bingex.com/', WEB_URL + '/static/images/wiki.png'],
@@ -80,7 +83,6 @@ USER_APP_SECRET = 's3w245uezSOF6KbPuJfdZuTjZwHwFuDp35-WjqdEXNQLoqBh9Abv3LKMyqZWl
 # APP_KEY = 'dingc19i7nhs75vwtiel'
 # APP_SECRET = '78VVKXBdPb5J-BPK5I5hB83bLdFqGkwB2hYlBYGzijaO7JzjYHFjnNHvuOxgCJKc'
 
-# ACCESS_TOKEN = 'e94db1642df735508ea729fe2d3146b2'
 APP_KEY = 'dingh3dxlg3xqe4pmqp6'
 APP_SECRET = 'buzJSrSCgQFZXCw9HsCcCRF2fcqiDVFBAoZ6l0syqgVRHH5Dy3rIM1IxC0Ufj8hk'
 

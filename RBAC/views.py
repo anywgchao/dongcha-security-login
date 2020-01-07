@@ -1,6 +1,7 @@
 # coding:utf-8
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
-from SeMF.settings import APP_ID, USER_APP_SECRET, APP_KEY, APP_SECRET, INFO_LIST, VALID_TIME
+from SeMF.settings import APP_ID, USER_APP_SECRET, APP_KEY, APP_SECRET, INFO_LIST
+from SeMF.settings import REDIS_HOST, REDIS_PASSWORD, VALID_TIME
 
 # Create your views here.
 from django.http import JsonResponse
@@ -727,8 +728,7 @@ def logins(request):
 
 
 def redis_connect():
-    r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='4cWZPP3mPyxdZzHR')
-    # r = redis.Redis(host='127.0.0.1', port=6379)
+    r = redis.Redis(host=REDIS_HOST, port=6379, db=0, password=REDIS_PASSWORD)
     return r
 
 

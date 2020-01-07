@@ -1,6 +1,6 @@
 # coding:utf-8
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
-from SeMF.settings import APP_ID, USER_APP_SECRET, ACCESS_TOKEN, INFO_LIST, VALID_TIME
+from SeMF.settings import APP_ID, USER_APP_SECRET, APP_KEY, APP_SECRET, INFO_LIST, VALID_TIME
 
 # Create your views here.
 from django.http import JsonResponse
@@ -679,15 +679,18 @@ def logins(request):
                     "tmp_auth_code": code
                 })
 
-            unionid = tmp_auth_code.json().get('unionid')
+            unionid = tmp_auth_code.json().get('user_info')['unionid']
 
-            access_token = ACCESS_TOKEN
+            access_token = requests.get(
+                'https://oapi.dingtalk.com/gettoken?appkey={appId}&appsecret={appSecret}'.
+                    format(appId=APP_KEY, appSecret=APP_SECRET))
+            access_token = access_token.json()["access_token"]  # 获取访问通讯录权限token
+
             user = requests.get(
                 'https://oapi.dingtalk.com/user/getUseridByUnionid?access_token={access_token}&unionid={unionid}'.
                     format(access_token=access_token, unionid=unionid))
-            user_id = user.json().get('user_info')['unionid']  # 根据unionid获取登录用户的userid
+            user_id = user.json().get('userid')  # 根据unionid获取登录用户的userid
 
-            user_id = 'manger112'
             if user_id:
                 token = generate_token(3600)
                 infolist = INFO_LIST

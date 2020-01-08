@@ -1,13 +1,40 @@
 <!--
  * @Author: Daboluo
  * @Date: 2019-12-12 20:20:44
- * @LastEditTime : 2020-01-07 11:33:11
+ * @LastEditTime : 2020-01-08 16:01:04
  * @LastEditors  : Do not edit
  -->
 
 # 全网钉钉统一安全认证
 
 结合ModHeader插件  对公司内部部分未认证系统 进行统一安全认证
+
+## 流程图
+
+* 1、获取 issbrowserid、issbrowsertoken
+
+```flow
+st=>start: 办公人员
+e=>end: 完成
+op1=>operation: Chrome插件
+op2=>operation: Redis
+io=>inputoutput: API认证网关
+st(right)->op1(right)->io(right)->op2
+```
+
+* 2、插件携带 issbrowserid、issbrowsertoken 请求业务资源
+
+```flow
+st2=>start: 办公人员
+e2=>end: 请求拦截
+
+cond2=>condition: nginx+lua网关
+io2=>operation: 业务系统
+io3=>operation: chrome插件
+st2->io3->cond2
+cond2(yes)->io2(right)
+cond2(no)->io3
+```
 
 ## 接口使用说明
 
@@ -183,3 +210,69 @@ DNS解析
 39.96.14.231,
 39.96.47.62,
 123.56.20.195
+
+---
+
+### 安装部署服务侧
+
+1、nginx 网关需要lua支持
+2、安全控制目标站点加入 “/opt/jxwaf/”
+
+```JAVA
+location / {
+    access_by_lua_file /opt/jxwaf/lualib/resty/netcontrol/accessControl.lua;
+}
+```
+
+3、部署服务端程序
+
+4、修改Reids配置（地址）
+
+* 4.1  修改平台Redis配置，setting.py 中redis连接配置
+* 4.2  修改/opt/jxwaf/lualib/resty/netcontrol/redisConn.lua redis连接配置
+
+5、配置nginx服务
+
+```JAVA
+server {
+    listen 80;
+    server_name dongcha-dinglogin-vpn.bingex.com;
+    add_header Strict-Transport-Security max-age=15768000;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443;
+    server_name dongcha-dinglogin-vpn.bingex.com;
+    access_log /opt/jxwaf/nginx/logs/login-test-vpn_access.log json;
+    error_log /opt/jxwaf/nginx/logs/login-test-vpn_error.log;
+    include  /opt/jxwaf/site/security_ssl;
+    include  /opt/jxwaf/site/security_proxy;
+
+    location /view/ {
+        include  /opt/jxwaf/site/security_allow_ip;
+    }
+
+    location / {
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header REMOTE-HOST $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_hide_header X-Frame-Options;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass       http://127.0.0.1:8839;
+    }
+    location /static {
+        alias /data/semf/dongcha-security-login/static;
+    }
+    location /static/admin {
+        alias /data/semf/dongcha-security-login/venv/lib/python3.6/site-packages/django/contrib/admin/static/admin;
+    }
+}
+
+```
+
+### 安装用户侧
+
+1、安装Chrome组件“闪送可信插件”

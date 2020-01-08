@@ -1,13 +1,40 @@
 <!--
  * @Author: Daboluo
  * @Date: 2019-12-12 20:20:44
- * @LastEditTime : 2020-01-07 11:33:11
+ * @LastEditTime : 2020-01-07 21:15:12
  * @LastEditors  : Do not edit
  -->
 
 # 全网钉钉统一安全认证
 
 结合ModHeader插件  对公司内部部分未认证系统 进行统一安全认证
+
+## 流程图
+
+* 1、获取 issbrowserid、issbrowsertoken
+
+```flow
+st=>start: 办公人员
+e=>end: 完成
+op1=>operation: Chrome插件
+op2=>operation: Redis
+io=>inputoutput: API认证网关
+st(right)->op1(right)->io(right)->op2
+```
+
+* 2、插件携带 issbrowserid、issbrowsertoken 请求业务资源
+
+```flow
+st2=>start: 办公人员
+e2=>end: 请求拦截
+
+cond2=>condition: nginx+lua网关
+io2=>operation: 业务系统
+io3=>operation: chrome插件
+st2->io3->cond2
+cond2(yes)->io2(right)
+cond2(no)->io3
+```
 
 ## 接口使用说明
 
@@ -141,6 +168,11 @@ data  =  {
     "code":  500
 }
 ```
+
+### Redis配置
+
+* 1、修改app_redis_client.lua redis连接配置
+* 2、修改 setting.py 中redis连接配置
 
 ### 其它配置
 

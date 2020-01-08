@@ -1,7 +1,7 @@
 <!--
  * @Author: Daboluo
  * @Date: 2019-12-12 20:20:44
- * @LastEditTime : 2020-01-08 15:45:16
+ * @LastEditTime : 2020-01-08 16:01:04
  * @LastEditors  : Do not edit
  -->
 
@@ -169,11 +169,6 @@ data  =  {
 }
 ```
 
-### Redis配置
-
-* 1、修改app_redis_client.lua redis连接配置
-* 2、修改 setting.py 中redis连接配置
-
 ### 其它配置
 
 项目名：【内网SSO】
@@ -233,8 +228,8 @@ location / {
 
 4、修改Reids配置（地址）
 
-* 4.1  修改平台Redis配置
-* 4.2  修改/opt/jxwaf/lualib/resty/netcontrol/redisConn.lua
+* 4.1  修改平台Redis配置，setting.py 中redis连接配置
+* 4.2  修改/opt/jxwaf/lualib/resty/netcontrol/redisConn.lua redis连接配置
 
 5、配置nginx服务
 
@@ -253,6 +248,10 @@ server {
     error_log /opt/jxwaf/nginx/logs/login-test-vpn_error.log;
     include  /opt/jxwaf/site/security_ssl;
     include  /opt/jxwaf/site/security_proxy;
+
+    location /view/ {
+        include  /opt/jxwaf/site/security_allow_ip;
+    }
 
     location / {
         proxy_redirect off;

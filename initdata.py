@@ -37,9 +37,9 @@ def initmenu():
         )
 
     permission_list = [
-        {'title': '新增用户', 'url': '/manage/users',
+        {'title': '新增用户', 'url': '/manage/users/',
             'is_menu': True, 'menu_title': '新增用户'},
-        {'title': '个人资料', 'url': '/manage/user_data',
+        {'title': '个人资料', 'url': '/manage/user_data/',
             'is_menu': True, 'menu_title': '个人资料'},
         {'title': '用户列表', 'url': '/manage/user/',
             'is_menu': True, 'menu_title': '用户列表'},

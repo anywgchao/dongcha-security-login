@@ -665,7 +665,7 @@ def logins(request):
         resultdict = dict()
         code = request.GET.get('code')
         uuid = request.GET.get('uuid')
-        if code:
+        if code and uuid:
             token = requests.get(
                 'https://oapi.dingtalk.com/sns/gettoken?appid={appId}&appsecret={appSecret}'.format(appId=APP_ID,
                                                                                                     appSecret=USER_APP_SECRET))

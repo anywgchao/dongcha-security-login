@@ -2,8 +2,6 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from SeMF.settings import APP_ID, USER_APP_SECRET, APP_KEY, APP_SECRET, INFO_LIST
 from SeMF.settings import REDIS_HOST, REDIS_PASSWORD, VALID_TIME
-
-# Create your views here.
 from django.http import JsonResponse
 
 from django.views.decorators.csrf import csrf_protect

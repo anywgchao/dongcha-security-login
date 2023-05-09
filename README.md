@@ -95,10 +95,10 @@ cond2(no)->io3
  '<https://login-test.test.com/account_login'>      (提交方式POST)
 
 ```JSON
-data  =  {
+{
     "username":  'xxxxx',
     "password":  'xxxxx'
-    }
+}
 ```
 
 2.2、后端接收前端传回的账号密码

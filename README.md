@@ -7,7 +7,7 @@
 
 # 全网钉钉统一安全认证
 
-结合ModHeader插件  对公司内部部分未认证系统 进行统一安全认证
+结合 chrome ModHeader 插件  对公司内部部分未认证系统 进行统一安全认证
 
 ## 流程图
 
@@ -42,7 +42,7 @@ cond2(no)->io3
 
 #### 1.1、前端调用
 
-'<https://login-test.bingex.com/verification_code_login'>      (请求方式：GET)
+'<https://login-test.test.com/verification_code_login'>      (请求方式：GET)
 
 参考链接:  '<https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6'>
 
@@ -55,8 +55,7 @@ cond2(no)->io3
 
 ```JSON
 {
-    "msg":  "登陆成功"
-    "data":  [{
+    "msg":  [{
         "name":  "xxxxxxx",
         "url":  "xxxxxxxx",
         "icon":  "xxxxxxx"
@@ -76,8 +75,7 @@ cond2(no)->io3
 
 ```JSON
 {
-    "msg":  "非合法用户"
-    "data":  "Unauthorized  user",
+    "msg":  "Unauthorized  user",
     "code":  407
 }
 ```
@@ -86,8 +84,7 @@ cond2(no)->io3
 
 ```JSON
 {
-    "msg":  "登陆失败，请重新登陆认证"
-    "data":  "Login  failed",
+    "msg":  "Login  failed",
     "code":  500
 }
 ```
@@ -95,7 +92,7 @@ cond2(no)->io3
 ## 二.  账号密码登录
 
 2.1、前端调用
- '<https://login-test.bingex.com/account_login'>      (提交方式POST)
+ '<https://login-test.test.com/account_login'>      (提交方式POST)
 
 ```JSON
 data  =  {
@@ -112,8 +109,7 @@ data  =  {
 
 ```JSON
 {
-    "msg":  "登陆成功"
-    "data":  [{
+    "msg":  [{
         "name":  "xxxxxxx",
         "url":  "xxxxxxxx",
         "icon":  "xxxxxxx"
@@ -133,8 +129,7 @@ data  =  {
 
 ```JSON
 {
-    "msg":  "非合法用户"
-    "data":  "Unauthorized  user",
+    "msg":  "Unauthorized  user",
     "code":  407
 }
 ```
@@ -143,8 +138,7 @@ data  =  {
 
 ```JSON
 {
-    "msg":  "密码错误"
-    "data":  "Password  mistak",
+    "msg":  "Password  mistak",
     "code":  408
 }
 ```
@@ -153,8 +147,7 @@ data  =  {
 
 ```JSON
 {
-    "msg":  "账号被锁定"
-    "data":  "Account  locked",
+    "data":  "Account locked",
     "code":  409
 }
 ```
@@ -163,9 +156,8 @@ data  =  {
 
 ```JSON
 {
-    "msg":  "登陆失败，请重新登陆认证"
-    "data":  "Login  failed",
-    "code":  500
+    "data":  "Login failed",
+    "code":  403
 }
 ```
 
@@ -175,14 +167,14 @@ data  =  {
 
 描述：内网SSO扫码登陆
 
-回调接口： <https://dongcha-dinglogin.bingex.com/ding_login>
+回调接口： <https://dongcha-dinglogin.test.com/ding_login>
 
 ---
 项目名：【业务网SSO】
 
-描述：业务网SSO扫码登陆
+描述：业务网 SSO 扫码登陆
 
-回调接口：<https://dongcha-dinglogin-vpn.bingex.com/verification_code_login>
+回调接口：<https://dongcha-dinglogin-vpn.test.com/verification_code_login>
 
 LOGO地址：
  <https://apkhouse.oss-cn-beijing.aliyuncs.com/vpn/icon-256x256.png>
@@ -190,28 +182,8 @@ LOGO地址：
 ---
 DNS解析
 
-* dongcha-dinglogin.bingex.com     39.107.218.219
-* dongcha-dinglogin-vpn.bingex.com 39.107.218.219
-
----
-钉钉IP白名单-获取内部通讯录-小程序
-公司内部IP
-106.39.46.254,
-219.143.154.194,
-
-阿里云出口IP
-39.105.102.198,
-39.105.131.102,
-39.105.133.23,
-39.105.91.107,
-39.105.135.137,
-39.96.58.235,
-39.96.67.212,
-39.96.14.231,
-39.96.47.62,
-123.56.20.195
-
----
+* dongcha-dinglogin.test.com     39.107.218.219
+* dongcha-dinglogin-vpn.test.com 39.107.218.219
 
 ### 安装部署服务侧
 
@@ -236,14 +208,14 @@ location / {
 ```JAVA
 server {
     listen 80;
-    server_name dongcha-dinglogin-vpn.bingex.com;
+    server_name dongcha-dinglogin-vpn.test.com;
     add_header Strict-Transport-Security max-age=15768000;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443;
-    server_name dongcha-dinglogin-vpn.bingex.com;
+    server_name dongcha-dinglogin-vpn.test.com;
     access_log /opt/jxwaf/nginx/logs/login-test-vpn_access.log json;
     error_log /opt/jxwaf/nginx/logs/login-test-vpn_error.log;
     include  /opt/jxwaf/site/security_ssl;
@@ -275,4 +247,4 @@ server {
 
 ### 安装用户侧
 
-1、安装Chrome组件“闪送可信插件”
+1、安装Chrome组件“可信插件”

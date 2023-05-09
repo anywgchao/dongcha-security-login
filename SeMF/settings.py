@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5o@#+%b-%j_-47tzgdy6-e#hz+cu%*^#0$^%(2*ie!7++=&a)%'
+SECRET_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 # DEBUG = True
 DEBUG = False
@@ -30,27 +30,27 @@ SAFE_URL = [
 ]
 
 EMAIL_HOST = 'smtp.exmail.qq.com'  # SMTP地址
-EMAIL_PORT = 465  # SMTP端口
-EMAIL_HOST_USER = 'security@ishansong.com'  # 我自己的邮箱
-EMAIL_HOST_PASSWORD = 'YjdS73embjf6YXRz'  # 我的邮箱密码
-EMAIL_SUBJECT_PREFIX = u'[shansong]'  # 为邮件Subject-line前缀,默认是'[django]'
+EMAIL_PORT = 465                    # SMTP端口
+EMAIL_HOST_USER = 'mail@qq.com'  # 我自己的邮箱
+EMAIL_HOST_PASSWORD = ''  # 我的邮箱密码
+EMAIL_SUBJECT_PREFIX = u'[xxxxxx]'  # 为邮件Subject-line前缀,默认是'[django]'
 EMAIL_USE_SSL = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)。默认是false
 # 管理员站点
-SERVER_EMAIL = 'security@ishansong.com'
-DEFAULT_FROM_EMAIL = '安全管控平台<security@ishansong.com>'
+SERVER_EMAIL = 'mail@qq.com'
+DEFAULT_FROM_EMAIL = 'xxx平台<mail@qq.com>'
 
 VALID_TIME = 8
 
-REDIS_PASSWORD = '4cWZPP3mPyxdZzHR'
+REDIS_PASSWORD = 'xxxxxxxxxxxxxx'
 REDIS_HOST = '127.0.0.1'
 
 # 设置网站根地址
-WEB_URL = 'https://dongcha-dinglogin-vpn.bingex.com'
+WEB_URL = 'https://dongcha-dinglogin-vpn.test.com'
 
-INFO_LIST = [['运营系统', 'http://admin.ishansong.com/', WEB_URL + '/static/images/operation.png'],
-             ['wiki', 'http://wiki.bingex.com/', WEB_URL + '/static/images/wiki.png'],
-             ['客服系统', 'http://cs.ishansong.com/', WEB_URL + '/static/images/service.png'],
-             ['sso系统', 'http://sso.ishansong.com/', WEB_URL + '/static/images/account.png']]
+INFO_LIST = [['运营系统', 'http://admin.test.com/', WEB_URL + '/static/images/operation.png'],
+             ['wiki', 'http://wiki.test.com/', WEB_URL + '/static/images/wiki.png'],
+             ['客服系统', 'http://cs.test.com/', WEB_URL + '/static/images/service.png'],
+             ['sso系统', 'http://sso.test.com/', WEB_URL + '/static/images/account.png']]
 # 设置登录初始路径
 LOGIN_URL = '/view/'
 
@@ -74,17 +74,11 @@ SESSION_MENU_KEY = 'smk'
 ALL_MENU_KEY = 'amk'
 PERMISSION_MENU_KEY = 'pmk'
 
-APP_ID = 'dingoalsv4lgdgoyxsmjyn'
-USER_APP_SECRET = 's3w245uezSOF6KbPuJfdZuTjZwHwFuDp35-WjqdEXNQLoqBh9Abv3LKMyqZWlZcj'
+APP_ID = 'xxxxxxxxxx'
+USER_APP_SECRET = 'xxxxxxxxxx'
 
-# APP_ID = 'dingoaqsukcpmmvsaarq8o'
-# USER_APP_SECRET = 'f2oGACNfw3zFCLhi40UCplJv-dAmMV4ujCGS1AZbfsT90Jpg4BF5kPDkbx2z3W4J'
-
-# APP_KEY = 'dingc19i7nhs75vwtiel'
-# APP_SECRET = '78VVKXBdPb5J-BPK5I5hB83bLdFqGkwB2hYlBYGzijaO7JzjYHFjnNHvuOxgCJKc'
-
-APP_KEY = 'dingh3dxlg3xqe4pmqp6'
-APP_SECRET = 'buzJSrSCgQFZXCw9HsCcCRF2fcqiDVFBAoZ6l0syqgVRHH5Dy3rIM1IxC0Ufj8hk'
+APP_KEY = 'xxxxxxxxxx'
+APP_SECRET = 'xxxxxxxxxx'
 
 # Application definition
 INSTALLED_APPS = [
@@ -134,17 +128,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'SeMF.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-"""
 
+"""
 # 设置mysql数据配置信息
 DATABASES = {
     'default': {
@@ -163,8 +154,6 @@ DATABASES = {
 """
 
 # Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -207,17 +196,11 @@ CORS_ALLOW_HEADERS = (
 )
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
 LANGUAGE_CODE = 'zh-Hans'
-
 TIME_ZONE = 'Asia/Shanghai'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = False
-
 APPEND_SLASH = False
 
 # Static files (CSS, JavaScript, Images)
